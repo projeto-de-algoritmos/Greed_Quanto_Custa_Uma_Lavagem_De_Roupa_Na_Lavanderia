@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: MySQL
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: lavanderia
+      MYSQL_USER: lavanderiaAdmin
+      MYSQL_PASSWORD: password
+
+  lavanderia:
+    depends_on:
+      - db
+    container_name: Lavanderia
+    image: ${DOCKER_REGISTRY-}lavanderia
+    restart: always
+    ports:
+      - "57765:57765"
+    build:
+      context: .
+      dockerfile: Lavanderia/Dockerfile
+
+volumes:
+  db_data: {}

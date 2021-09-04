@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Lavanderia.BLL.DTO;
+using Lavanderia.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,10 @@ namespace Lavanderia.Controllers
     public class AdicionaLavagemController : ControllerBase
     {
         [HttpPost]
-        public void Post()
+        public void Post(RoupasDTO roupas)
         {
-            
+            Lavagem lavagem = new Lavagem();
+
         }
     }
 }
