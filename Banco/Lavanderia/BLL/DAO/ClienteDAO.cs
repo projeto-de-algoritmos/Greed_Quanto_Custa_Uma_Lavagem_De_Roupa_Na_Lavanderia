@@ -20,5 +20,23 @@ namespace Lavanderia.BLL.DAO
                 conn.Insert<ClienteDTO>(cliente);
             }
         }
+
+        public ClienteDTO buscaCPF(string cpf)
+        {
+            using (var conn = new MySqlConnection(DBConection.Conexao))
+            {
+                conn.Open();
+                try
+                {
+                    return conn.Get<ClienteDTO>(new ClienteDTO { cpf = cpf });
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
+
+                
+            }
+        }
     }
 }

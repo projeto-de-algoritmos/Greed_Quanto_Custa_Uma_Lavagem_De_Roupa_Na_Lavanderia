@@ -11,16 +11,16 @@ namespace Lavanderia.DataBase.Migrations
     {
         public override void Up()
         {
-            Create.Table("Cliente")
-                .WithColumn("ClienteId").AsInt64().PrimaryKey().Identity()
-                .WithColumn("email").AsString()
-                .WithColumn("nome").AsString()
+            Create.Table("Roupas")
+                .WithColumn("RoupasId").AsInt64().PrimaryKey().Identity()
+                .WithColumn("quantidadeRoupas").AsInt64()
+                .WithColumn("horaEntrada").AsDateTime()
                 .WithColumn("cpf").AsString();
         }
-
+        
         public override void Down()
         {
-            Delete.Table("Cliente");
+            Delete.Table("Roupas");
         }
     }
 }

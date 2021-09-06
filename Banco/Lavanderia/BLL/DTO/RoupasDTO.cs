@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Lavanderia.BLL.DTO
 {
+    [Table("Roupas")]
     public class RoupasDTO
     {
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
         public int RoupasId { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -16,6 +18,6 @@ namespace Lavanderia.BLL.DTO
 
         public DateTime horaEntrada { get; set; }
         
-        public ClienteDTO cliente { get; set; }
+        public string cpf { get; set; }
     }
 }

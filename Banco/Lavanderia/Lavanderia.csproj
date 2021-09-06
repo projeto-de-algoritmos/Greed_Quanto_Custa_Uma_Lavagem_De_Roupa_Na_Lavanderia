@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BLL\DAO\ClienteDAO.cs" />
+    <Compile Remove="BLL\DTO\ClienteDTO.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
     <PackageReference Include="DapperExtensions" Version="1.7.0" />
