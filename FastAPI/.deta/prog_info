@@ -1,0 +1,1 @@
+{"id":"8804b033-223d-46f0-ad84-4c04bdd2de94","space":5984,"runtime":"python3.7","name":"FastAPI","path":"cck3xm","project":"b0eneeii","account":"144798365827","region":"sa-east-1","deps":["fastapi","uvicorn","matplotlib","pydantic","pyimgur","pandas","numpy","python-multipart","pillow"],"envs":null,"public":true,"log_level":"debug","cron":""}
