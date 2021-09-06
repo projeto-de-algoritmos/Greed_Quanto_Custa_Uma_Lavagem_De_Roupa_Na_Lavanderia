@@ -9,6 +9,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Newtonsoft.Json;
+using System.Text;
+using System.Net;
+using System.IO;
 
 namespace Lavanderia.BLL.DAO
 {
@@ -80,7 +83,7 @@ namespace Lavanderia.BLL.DAO
             return saidaA.CompareTo(saidaB);
         }
 
-        public async void getDayFinal(DateTime dia)
+        public async Task<string> getDayFinal(DateTime dia)
         {
             List<RoupasDTO> provisoria = getDay(dia);
 
@@ -104,12 +107,17 @@ namespace Lavanderia.BLL.DAO
                 }
             }
             string output = JsonConvert.SerializeObject(auxiliar);
-            var responseString = await "https://cck3xm.deta.dev/Agenda/"
-            .PostUrlEncodedAsync(new { inicios = auxiliar.inicios, duracoes = auxiliar.duracoes })
-            .ReceiveString();
 
+            var url = "https://o6j48p.deta.dev/Agenda";
 
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(
+                    url,
+                     new StringContent(output, Encoding.UTF8, "application/json"));
 
+                return await response.Content.ReadAsStringAsync();
+            }
         }
     }
 }

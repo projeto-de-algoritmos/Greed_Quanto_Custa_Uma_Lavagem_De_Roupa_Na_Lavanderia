@@ -52,10 +52,10 @@ namespace Lavanderia.Services
             return true;
         }
 
-        public IList<RoupasDTO> getDay(DateTime dia)
+        public string getDay(DateTime dia)
         {
-            new RoupasDAO().getDayFinal(dia);
-            return null;
+            string content = new RoupasDAO().getDayFinal(dia).GetAwaiter().GetResult();
+            return content;
         }
 
     }

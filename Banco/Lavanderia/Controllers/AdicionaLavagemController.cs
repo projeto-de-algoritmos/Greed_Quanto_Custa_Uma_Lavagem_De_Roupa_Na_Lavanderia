@@ -20,8 +20,6 @@ namespace Lavanderia.Controllers
             {
                 // retorna o resultado
             };
-
-
         }
 
         [HttpGet]
@@ -31,11 +29,9 @@ namespace Lavanderia.Controllers
         }
 
         [HttpGet("{dia}")]
-        public IList<RoupasDTO> getDay(DateTime dia)
+        public string getDay(DateTime dia)
         {
             return new Lavagem().getDay(dia);
         }
-
-
     }
 }
