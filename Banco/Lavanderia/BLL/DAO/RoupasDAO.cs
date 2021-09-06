@@ -5,13 +5,23 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Flurl.Http;
+using Newtonsoft.Json;
 
 namespace Lavanderia.BLL.DAO
 {
     public class RoupasDAO
     {
         //Inserir um cliente!
+
+
+        public class request
+        {
+            public decimal[] inicios = new decimal[0];
+            public decimal[] duracoes = new decimal[0];
+        }
         public void InserirRoupa(RoupasDTO cliente)
         {
             using (var conn = new MySqlConnection(DBConection.Conexao))
@@ -38,13 +48,13 @@ namespace Lavanderia.BLL.DAO
             {
                 conn.Open();
 
-                string _query = "SELECT * FROM Roupas where horaEntrada BETWEEN '" + dia.ToString("yyyy-MM-dd 00:00:00")+ "' AND '";
+                string _query = "SELECT * FROM Roupas where horaEntrada BETWEEN '" + dia.ToString("yyyy-MM-dd 00:00:00") + "' AND '";
 
                 dia = dia.AddDays(1);
 
                 _query += dia.ToString("yyyy-MM-dd 00:00:00") + "'";
 
-                MySqlCommand cmd  = new MySqlCommand(_query, conn);
+                MySqlCommand cmd = new MySqlCommand(_query, conn);
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
@@ -70,7 +80,7 @@ namespace Lavanderia.BLL.DAO
             return saidaA.CompareTo(saidaB);
         }
 
-        public IList<RoupasDTO> getDayFinal(DateTime dia)
+        public async void getDayFinal(DateTime dia)
         {
             List<RoupasDTO> provisoria = getDay(dia);
 
@@ -78,14 +88,28 @@ namespace Lavanderia.BLL.DAO
 
             provisoria.Sort(compare);
 
-            foreach(var item in provisoria)
+            List<Decimal> iniciosEnd = new List<decimal>();
+            List<Decimal> DuracoesEnd = new List<decimal>();
+
+            request auxiliar = new request();
+
+            foreach (var item in provisoria)
             {
-                if(item == provisoria[0] ||  item.horaEntrada.TimeOfDay >= lavagensFinal[lavagensFinal.Count-1].horaEntrada.AddMinutes(lavagensFinal[lavagensFinal.Count - 1].quantidadeRoupas).TimeOfDay)
+                if (item == provisoria[0] || item.horaEntrada.TimeOfDay >= lavagensFinal[lavagensFinal.Count - 1].horaEntrada.AddMinutes(lavagensFinal[lavagensFinal.Count - 1].quantidadeRoupas).TimeOfDay)
                 {
                     lavagensFinal.Add(item);
+                    auxiliar.inicios.Append(item.horaEntrada.Hour + item.horaEntrada.Minute / 60);
+                    auxiliar.duracoes.Append(item.quantidadeRoupas / 60);
+
                 }
             }
-            return lavagensFinal;
+            string output = JsonConvert.SerializeObject(auxiliar);
+            var responseString = await "https://cck3xm.deta.dev/Agenda/"
+            .PostUrlEncodedAsync(new { inicios = auxiliar.inicios, duracoes = auxiliar.duracoes })
+            .ReceiveString();
+
+
+
         }
     }
 }

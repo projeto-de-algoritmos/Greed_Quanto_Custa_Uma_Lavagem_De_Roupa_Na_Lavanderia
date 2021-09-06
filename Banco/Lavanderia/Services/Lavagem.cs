@@ -54,7 +54,8 @@ namespace Lavanderia.Services
 
         public IList<RoupasDTO> getDay(DateTime dia)
         {
-            return new RoupasDAO().getDayFinal(dia);
+            new RoupasDAO().getDayFinal(dia);
+            return null;
         }
 
     }
