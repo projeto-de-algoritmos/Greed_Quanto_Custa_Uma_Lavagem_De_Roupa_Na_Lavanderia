@@ -22,8 +22,8 @@ namespace Lavanderia.BLL.DAO
 
         public class request
         {
-            public decimal[] inicios = new decimal[0];
-            public decimal[] duracoes = new decimal[0];
+            public List<decimal> inicios = new List<decimal>();
+            public List<decimal> duracoes = new List<decimal>();
         }
         public void InserirRoupa(RoupasDTO cliente)
         {
@@ -84,7 +84,7 @@ namespace Lavanderia.BLL.DAO
         }
 
         public async Task<string> getDayFinal(DateTime dia)
-        {
+        {   // Algoritmo greed 
             List<RoupasDTO> provisoria = getDay(dia);
 
             List<RoupasDTO> lavagensFinal = new List<RoupasDTO>();
@@ -101,8 +101,8 @@ namespace Lavanderia.BLL.DAO
                 if (item == provisoria[0] || item.horaEntrada.TimeOfDay >= lavagensFinal[lavagensFinal.Count - 1].horaEntrada.AddMinutes(lavagensFinal[lavagensFinal.Count - 1].quantidadeRoupas).TimeOfDay)
                 {
                     lavagensFinal.Add(item);
-                    auxiliar.inicios.Append(item.horaEntrada.Hour + item.horaEntrada.Minute / 60);
-                    auxiliar.duracoes.Append(item.quantidadeRoupas / 60);
+                    auxiliar.inicios.Add(Convert.ToDecimal(item.horaEntrada.Hour) + Convert.ToDecimal(item.horaEntrada.Minute) / 60);
+                    auxiliar.duracoes.Add(Convert.ToDecimal(item.quantidadeRoupas) / 60);
 
                 }
             }
@@ -111,7 +111,7 @@ namespace Lavanderia.BLL.DAO
             var url = "https://o6j48p.deta.dev/Agenda";
 
             using (var client = new HttpClient())
-            {
+                {
                 var response = await client.PostAsync(
                     url,
                      new StringContent(output, Encoding.UTF8, "application/json"));
