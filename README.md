@@ -9,8 +9,7 @@
 
 ## Sobre 
 
-
-Link da apresentação: 
+Esse projeto tem como objetivo simular um sistema de gestão de roupas em uma lavanderia, mostrando qual a forma mais eficiente de realizar o processo de lavagem através do algoritimo "time scheduling" 
 
 ## Screenshots
 <img src="./img/Lavanderia1.png">
